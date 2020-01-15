@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.css}" />
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+    <main role="main" class="container">
+        <form method="post">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <h1>SKAT Bowling Opgave</h1>
+                    </div>
+                    <div class="row">
+                        <table class="table">
+                            <tr>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                                <th>7</th>
+                                <th>8</th>
+                                <th>9</th>
+                                <th>10</th>
+                                <th>Score</th>
+                            </tr>
+                            <tr>
+                                <th:block th:each="point, iter : ${game.points}">
+                                    <td th:if="${iter.index} < 9">
+                                        <div class="frame" th:if="${point[0] > 0 || point[1] > 0}">
+                                            <div class="upper">
+                                                <div class="half" th:text="${point[0]}" th:if="${point[0] != 10}"></div>
+                                                <div class="half" th:text="X" th:unless="${point[0] != 10}"></div>
+
+                                                <div class="half" th:if="${point[0] == 10}">&nbsp;</div>
+                                                <th:block th:unless="${point[0] == 10}">
+                                                    <div class="half" th:if="${point[0] + point[1] == 10 AND point[0] != 10}">/</div>
+                                                    <div class="half" th:text="${point[1]}" th:unless="${point[0] + point[1] == 10}"></div>
+                                                </th:block>
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div class="bottom" th:if="${iter.index <= game.sums.length}" th:text="${game.sums[iter.index]}"></div>
+                                            <div class="bottom" th:unless="${iter.index <= game.sums.length}">&nbsp;</div>
+                                        </div>
+                                        <div class="frame" th:if="${point[0] == 0 && point[1] == 0}">
+                                            <div class="upper">
+                                                <div class="half">&nbsp;</div>
+                                                <div class="half">&nbsp;</div>
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div class="bottom">&nbsp;</div>
+                                        </div>
+                                    </td>
+                                </th:block>
+                                <td>
+                                    <div class="frame">
+                                        <div class="upper">
+                                            <th:block th:if="${game.sums.length == 10 && game.points[9][0] == 10}">
+                                                <div class="third" th:if="${game.sums.length == 10}">X</div>
+                                                <div class="third" th:if="${game.sums.length == 10 AND game.points[10][0] == 10}">X</div>
+                                                <div class="third" th:unless="${game.sums.length == 10 AND game.points[10][0] == 10}" th:text="${game.points[10][0]}"></div>
+                                                <div class="third" th:if="${game.sums.length == 10 AND game.points[10][1] == 10}">X</div>
+                                                <div class="third" th:unless="${game.sums.length == 10 AND game.points[10][1] == 10}" th:text="${game.points[10][0]}"></div>
+                                            </th:block>
+                                            <th:block th:if="${game.sums.length == 10 && (game.points[9][0] != 10 || game.points[10][0] != 10 || game.points[10][1] != 10)}">
+                                                <div class="third" th:text="${game.points[9][0]}"></div>
+                                                <div class="third" th:text="${game.points[9][1]}"></div>
+                                                <div class="third">&nbsp;</div>
+                                            </th:block>
+                                            <th:block th:unless="${game.sums.length == 10}">
+                                                <div class="third">&nbsp;</div>
+                                                <div class="third">&nbsp;</div>
+                                                <div class="third">&nbsp;</div>
+                                            </th:block>
+                                        </div>
+                                        <div class="clear"></div>
+                                        <div class="bottom">
+                                            <div class="third" th:if="${game.sums.length == 10}" th:text="${game.sums[9]}"></div>
+                                            <div class="third" th:unless="${game.sums.length == 10}">&nbsp;</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="fullBox" th:text="${game.sums[game.sums.length-1]}"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+</body>
+</html>
