@@ -26,7 +26,7 @@ public class HomeController {
     private void getNewGameAndCalculate() {
         try {
             System.out.println("Decoding JSON and creating Game object...");
-            
+
             game = Game.fromJSON();
 
             System.out.println("Calculating sums...");
